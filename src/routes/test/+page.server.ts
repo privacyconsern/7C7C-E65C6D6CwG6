@@ -3,15 +3,8 @@ import { API } from '$env/static/private'; //api route
 
 export const load: PageServerLoad = async ({ fetch }) => {
 
-    //fetch restaurant
-    const response = await fetch(`${API}/restaurants`, {
-		method: 'GET',
-		headers: {
-			'content-type': 'application/json'
-		}
-	});
     //fetch table
-    const response3 = await fetch(`${API}/tables`, {
+    const response = await fetch(`${API}/tables`, {
         method: 'GET',
         headers: {
             'content-type': 'application/json'
@@ -38,12 +31,6 @@ export const load: PageServerLoad = async ({ fetch }) => {
             timeslots: timeslots
         };
     }
-    if (response3.ok) {
-        const restaurants = await response2.json();
-        return {
-            restaurants: restaurants
-        };
-    }
     //else return error
-    return { tables: [], timeslots: [], restaurants: [] };
+    return { tables: [], timeslots: [] };
 };
