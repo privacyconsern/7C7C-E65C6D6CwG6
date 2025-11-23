@@ -47,6 +47,7 @@
             {formMessage.text}
         </p>
     {/if}
+<a href="/home">home</a>
 <!--
 <input type="text" placeholder="Enter restaurant code" bind:value={restaurantCode}
         class="flex-grow-0.5 px-4 py-2 text-lg text-gray-700 placeholder-gray-500 focus:outline-none"/>

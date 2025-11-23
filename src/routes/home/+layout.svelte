@@ -4,7 +4,9 @@
     let { data, children }: LayoutProps = $props();
 </script>
 <nav>
-    <a href="/">home</a>
+    <a href="/">main</a>
 	<a href="/register">register</a>
+    <a href="/login">login</a>
+    <a href="/restaurants">restrants</a>
 </nav>
 {@render children()}
