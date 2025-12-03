@@ -1,30 +1,27 @@
-import { fail, redirect } from '@sveltejs/kit';
-import { register } from '$lib/server/userService';
+import { fail } from '@sveltejs/kit';
+import { API } from '$env/static/private';
+import type { Actions } from './$types';
 
-export const actions = {
-    default: async ({ request, cookies }) => {
-        const data = await request.formData();
-        const email = data.get('email') as string;
-        const password = data.get('password') as string;
+export const actions: Actions = {
+	default: async ({ request }) => {
+		const formData = await request.formData();
+		const email = formData.get('email');
+		const password = formData.get('password');
+        // Add confirmPassword check here if your UI has it
 
-        if (!email || !password) {
-            return fail(400, { missing: true });
-        }
+		const response = await fetch(`${API}/register`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email, password })
+		});
 
-        try {
-            const newUser = await register(email, password);
+		if (!response.ok) {
+            const err = await response.json();
+            // Map .NET Identity errors
+            const errorMsg = err.errors ? Object.values(err.errors).flat().join(', ') : "Registration failed";
+			return fail(400, { error: errorMsg });
+		}
 
-            // UX: Login immediately after registration
-            cookies.set('session', 'valid-token', {
-                path: '/',
-                httpOnly: true, // Security: JS cannot read this
-                sameSite: 'strict',
-                maxAge: 60 * 60 * 24 * 7 // 1 week
-            });
-        } catch (error) {
-            return fail(400, { email, error: 'User could not be created.' });
-        }
-
-        throw redirect(303, '/dashboard');
-    }
+		return { success: true, message: "Please check your email to confirm account." };
+	}
 };

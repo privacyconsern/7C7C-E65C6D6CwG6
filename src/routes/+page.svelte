@@ -2,10 +2,12 @@
     import { enhance } from '$app/forms';
     import type { SubmitFunction } from '@sveltejs/kit';
     import type { PageProps } from './$types';
-    import Nav from '$lib/components/Nav.svelte'
+    import Nav from '$lib/components/Nav.svelte';
     import { goto } from '$app/navigation';
+    import Slider from '$lib/components/ui/Slider.svelte';
     let { data, form }: PageProps = $props();
 
+    const imageUrl = 'https://picsum.photos/800/400';
     let formMessage: { type: 'success' | 'error', text: string } | null = null;
     let restaurantCode = $state('');
     const handleSubmit: SubmitFunction = () => {
@@ -27,26 +29,37 @@
     };
 </script>
 <Nav />
-<form method="POST" action="?/checkCode" use:enhance={handleSubmit}>
-        <label for="restaurant-code">Restaurant Code:</label>
-        <input 
-            type="text" 
-            id="restaurant-code" 
-            name="restaurantCode" 
-            placeholder="Enter code here" 
-            required
-            bind:value={restaurantCode}
-        />
-        <button class="bg-[#2300B0] px-4 flex items-center justify-center" type="submit">
-            <p class="text-white">➤</p>
-        </button>
-    </form>
 
-    {#if formMessage}
-        <p class={formMessage.type === 'error' ? 'error-message' : 'success-message'}>
-            {formMessage.text}
-        </p>
-    {/if}
+<div class="inline-flex py-5">
+    <div>
+        <h1 class="text-6xl px-38 py-12">
+            Reserve a table<br />at your favourite<br />restaurant
+        </h1>
+        <form class="flex justify-start px-38" method="POST" action="?/checkCode" use:enhance={handleSubmit}>
+            <label for="restaurant-code"></label>
+            <input 
+                type="text" 
+                id="restaurant-code" 
+                name="restaurantCode" 
+                placeholder="Enter code here" 
+                required
+                bind:value={restaurantCode}
+            /><button class="bg-[#2300B0] px-4 flex items-center justify-center" type="submit">
+                <p class="text-white">➤</p>
+            </button>
+        </form>
+        <p class="text-sm text-gray-500 mt-2 px-38">Codes are in format ##-000-000</p>
+        {#if formMessage}
+            <p class={formMessage.type === 'error' ? 'error-message' : 'success-message'}>
+                {formMessage.text}
+            </p>
+        {/if}
+    </div>
+    <div class="my-5">
+        <img src={imageUrl} alt="A random image from Picsum Photos" />
+    </div>
+</div>
+<Slider />
 <a href="/home">home</a>
 <!--
 <input type="text" placeholder="Enter restaurant code" bind:value={restaurantCode}

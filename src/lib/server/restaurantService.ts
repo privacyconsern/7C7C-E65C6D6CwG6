@@ -1,12 +1,12 @@
 import { API } from '$env/static/private';
-
+//create restaurant
+//
 export async function checkRestaurantCodeExists(code: string) {
     console.log(code);
     const normalizedCode = code.trim().toUpperCase();
-    const url = `${API}/check-restaurant-code?code=${normalizedCode}`;
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${API}/check-restaurant-code?code=${normalizedCode}`, {
             method: 'GET',
             headers: {
                 //no need for json since response only OK()

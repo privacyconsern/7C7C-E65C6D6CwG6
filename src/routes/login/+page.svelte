@@ -1,24 +1,19 @@
 <script lang="ts">
-    // Access the form validation errors returned by 'fail'
-    export let form; 
+    export let form;
 </script>
 
 <h1>Login</h1>
 
 <form method="POST">
     <label>
-        Email:
-        <input name="email" type="email" value={form?.email ?? ''} required>
+        Email: <input name="email" type="email" required value={form?.email ?? ''} />
     </label>
-    
     <label>
-        Password:
-        <input name="password" type="password" required>
+        Password: <input name="password" type="password" required />
     </label>
+    <button>Log In</button>
 
-    {#if form?.incorrect}
-        <p class="error">Invalid credentials</p>
+    {#if form?.error}
+        <p style="color: red">{form.error}</p>
     {/if}
-
-    <button>Log in</button>
 </form>

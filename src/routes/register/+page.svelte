@@ -33,19 +33,20 @@
     let { data }: PageProps = $props();
 </script>
 <form method="POST" action="?/register" use:enhance={handleRegister}>
-        <label for="restaurant-code">Restaurant Code:</label>
-        <input 
-            type="text" 
-            id="restaurant-code" 
-            name="restaurantCode" 
-            placeholder="Enter code here" 
-            required
-            bind:value={email}
-        />
-        <button class="bg-[#2300B0] px-4 flex items-center justify-center" type="submit">
-            <p class="text-white">➤</p>
-        </button>
-    </form>
+        <label>
+        Email:
+        <input type="email" bind:value={email} required />
+    </label>
+    <label>
+        Password:
+        <input type="password" bind:value={password} required />
+    </label>
+    <label>
+        Confirm Password:
+        <input type="password" bind:value={confirmPassword} required />
+    </label>
+    <button type="submit">Register</button>
+</form>
 
     {#if result}
         <p class={result.type === 'error' ? 'error-message' : 'success-message'}>
