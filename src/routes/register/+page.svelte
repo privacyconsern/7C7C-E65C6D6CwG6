@@ -1,36 +1,30 @@
 <script lang="ts">
-    import type { PageProps } from './$types';
-    import { goto } from '$app/navigation';
     import { enhance } from '$app/forms';
+    import type { SubmitFunction } from '@sveltejs/kit';
+    import type { PageProps } from './$types';
+    let { data, form }: PageProps = $props();
+    let email = $state('');
+    let password = $state('');
+    let confirmPassword = $state('');
     let result: { type: 'success' | 'error', text: string } | null = null;
-    let email: string = '';
-    let password: string = '';
-    let confirmPassword: string = '';
-    const apiUrl = '/api/register'; // This proxies to http://localhost:5069/register and it like actually does!!!!
+    const handleRegister: SubmitFunction = () => {
+        console.log("passed")
+        result = null;
 
-    async function handleRegister(){
-        if (password !== confirmPassword){
-            alert('Passwords do not match!');
-            return;
-        }
-        const userData = { email, password };
-        try {
-            const res = await fetch(apiUrl,{
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData)
-            });
-
-            if (!res.ok) throw new Error('Registration failed');
-
-            alert('Registration successful!');
-            goto('/login');
-        } catch (err){
-            console.error('Registration failed', err);
-            alert('Registration failed! Try again.');
-        }
-    }
-    let { data }: PageProps = $props();
+        return async ({ result, update }) => {
+            console.log("here")
+            if (result.type === 'success') {
+                result = {type: "success", text: "check inbox to confirm registratiom"}
+            }
+            else {
+                //display error message from the server action
+                result = { type: 'error', text: `An unexpected error occurred. ${result.data?.error}` };
+                console.log(result.data?.error)
+            }
+            //page reload (optional)
+            await update();
+        };
+    };
 </script>
 <form method="POST" action="?/register" use:enhance={handleRegister}>
         <label>
