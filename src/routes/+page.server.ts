@@ -9,6 +9,7 @@ export const actions: Actions = {
     //matches the action="?/checkCode" in the form
     checkCode: async ({ request }) => {
         const data = await request.formData();
+        //CreatedAt: Date.now.toString
         const restaurantCode = data.get('restaurantCode')?.toString().toUpperCase().trim();
         if (!restaurantCode) {
             return fail(400, { error: 'Please enter a restaurant code.' });

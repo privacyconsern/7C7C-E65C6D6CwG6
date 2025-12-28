@@ -36,8 +36,6 @@ export const load: PageServerLoad = async ({ fetch }) => {
     //else return error
     return { tables: [], timeslots: [] };
 };
-
-// Layout
 let currentLayout: LayoutItem[] = [
     {
         walls: [],

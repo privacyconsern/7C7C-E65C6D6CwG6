@@ -1,38 +1,20 @@
-<!-- Email Confirm Token -->
 <script lang="ts">
-    import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
-    import { API } from '$env/static/private';
+    import type { PageData } from './$types'; //PageData for server-loaded data
 
-    let message = 'Verifying your email...';
-    let isSuccess = false;
-    
-    onMount(async () => {
-        const params = new URLSearchParams(window.location.search);
-        const token = params.get('token');
-        const email = params.get('email');
+    //svelteKit automatically provides the data returned from the load function
+    let { data }: { data: PageData } = $props();
+    let message = data.message;
+    let isSuccess = data.isSuccess;
 
-        if (!token || !email) {
-            message = 'Invalid confirmation link.';
-            return;
-        }
-
-        try {
-            const res = await fetch(`${API}/validate-register-token`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sessionToken: token, email })
-            });
-
-            if (!res.ok) throw new Error('Failed to verify email.');
-
-            message = 'Your email has been successfully verified! Redirecting...';
-            isSuccess = true;
-            setTimeout(() => goto('/login'), 3000);
-        } catch (err) {
-            console.error(err);
-            message = 'Verification failed. The link may be invalid or expired.';
-            isSuccess = false;
+    // A reactive statement ($:) that runs whenever a dependency changes.
+    // In this case, it runs once the component mounts and 'isSuccess' is available.
+    $effect(() => {
+        if (isSuccess) {
+            // Client-side navigation logic is safe here
+            setTimeout(() => {
+                goto('/login');
+            }, 3000);
         }
     });
 </script>

@@ -2,18 +2,16 @@ import { fail } from '@sveltejs/kit';
 import { API } from '$env/static/private';
 import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
-
+export const load = (async () => {
+	return {};
+}) satisfies PageServerLoad;
 export const actions: Actions = {
 	register: async ({ request }) => {
-		const formData = await request.formData();
-		const email = formData.get('email');
-		const password = formData.get('password');
-		const confirmPassword = formData.get('confirmPassword');
-        if (password !== confirmPassword){
-            alert('Passwords do not match!');
-            return;
-        }
-		console.log(email, password)
+		const data = await request.formData();
+		const email = data.get('email')?.toString().trim();
+		const password = data.get('password')?.toString().trim();
+		const confirmPassword = data.get('confirmPassword')?.toString().trim();
+		
 		const response = await fetch(`${API}/register`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -22,7 +20,7 @@ export const actions: Actions = {
 
 		if (!response.ok) {
             const err = await response.json();
-            // Map .NET Identity errors
+			//grab outputted errors from backend
             const errorMsg = err.errors ? Object.values(err.errors).flat().join(', ') : "Registration failed";
 			return fail(400, { error: errorMsg });
 		}

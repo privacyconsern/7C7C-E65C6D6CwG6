@@ -6,18 +6,18 @@ export const actions: Actions = {
 	default: async ({ cookies, request }) => {
         const accessToken = cookies.get('accessToken');
 
-        // Tell backend to revoke token
+        //revoke token on backend
 		await fetch(`${API}/logout`, {
 			method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
-                // Pass cookies so backend finds the RefreshToken to revoke
+                //give the refresh token
                 'cookie': request.headers.get('cookie') || '' 
             }
 		});
         console.log("logged out");
 
-        // Clear SvelteKit cookies
+        //clear token on frontend
 		cookies.delete('accessToken', { path: '/' });
 		cookies.delete('RefreshToken', { path: '/' });
         console.log("passed token delete");
