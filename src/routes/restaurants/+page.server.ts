@@ -1,23 +1,21 @@
-import type { PageServerLoad } from './$types';
-import { API } from '$env/static/private'; //api route
+import type { PageServerLoad } from "./$types";
+import { API } from "$env/static/private"; //api route
 
 export const load: PageServerLoad = async ({ fetch }) => {
-
-	//fetch data
+  try {
     const response = await fetch(`${API}/restaurants`, {
-		method: 'GET',
-		headers: {
-			'content-type': 'application/json'
-		}
-	});
-
-	//response ok, give data
-    if (response.ok) {
-        const restaurants = await response.json();
-        return {
-            restaurants: restaurants
-        };
-    }
-	//else return error
-    return { restaurants: [] };
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const restaurants = await response.json();
+    return {
+      restaurants: restaurants,
+    };
+  } catch {
+    return {
+      error: "backend not runnin",
+    };
+  }
 };

@@ -1,0 +1,13 @@
+[2026-02-01T15:02:11.178Z] Error: EBUSY: resource busy or locked, rmdir 'C:\Users\annah\frontend\yeet2\src\lib\api\client'
+Stack:
+Error: EBUSY: resource busy or locked, rmdir 'C:\Users\annah\frontend\yeet2\src\lib\api\client'
+    at rmdirSync (node:fs:1202:11)
+    at _rmdirSync (node:internal/fs/rimraf:236:5)
+    at rimrafSync (node:internal/fs/rimraf:194:7)
+    at node:internal/fs/rimraf:254:9
+    at Array.forEach (<anonymous>)
+    at _rmdirSync (node:internal/fs/rimraf:251:7)
+    at rimrafSync (node:internal/fs/rimraf:194:7)
+    at Object.rmSync (node:fs:1248:10)
+    at generateOutput (file:///C:/Users/annah/frontend/yeet2/node_modules/@hey-api/openapi-ts/dist/src-Dgh53q8K.mjs:15:37)
+    at createClient$1 (file:///C:/Users/annah/frontend/yeet2/node_modules/@hey-api/openapi-ts/dist/src-Dgh53q8K.mjs:122:9)

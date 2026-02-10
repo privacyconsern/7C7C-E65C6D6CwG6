@@ -1,27 +1,30 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
-    import type { PageData } from './$types'; //PageData for server-loaded data
+    import { goto } from "$app/navigation";
+    import { resolve } from "$app/paths";
+    import type { PageData } from "./$types";
 
-    //svelteKit automatically provides the data returned from the load function
+    //svelteKit automatically provides the data returned from the load function in +page.server.ts
     let { data }: { data: PageData } = $props();
     let message = data.message;
     let isSuccess = data.isSuccess;
 
-    // A reactive statement ($:) that runs whenever a dependency changes.
-    // In this case, it runs once the component mounts and 'isSuccess' is available.
     $effect(() => {
         if (isSuccess) {
-            // Client-side navigation logic is safe here
+            //nav magic
             setTimeout(() => {
-                goto('/login');
+                goto(resolve("/login"));
             }, 3000);
         }
     });
 </script>
 
-<h2 class={isSuccess ? 'success' : 'error'}>{message}</h2>
+<h2 class={isSuccess ? "success" : "error"}>{message}</h2>
 
 <style>
-    .success { color: green; }
-    .error { color: red; }
+    .success {
+        color: green;
+    }
+    .error {
+        color: red;
+    }
 </style>

@@ -1,30 +1,70 @@
-import { fail } from '@sveltejs/kit';
-import { API } from '$env/static/private';
-import type { Actions } from './$types';
-import type { PageServerLoad } from './$types';
+import { fail } from "@sveltejs/kit";
+import { API } from "$env/static/private";
+import type { Actions } from "./$types";
+import type { PageServerLoad } from "./$types";
 export const load = (async () => {
-	return {};
+  return {};
 }) satisfies PageServerLoad;
 export const actions: Actions = {
-	register: async ({ request }) => {
-		const data = await request.formData();
-		const email = data.get('email')?.toString().trim();
-		const password = data.get('password')?.toString().trim();
-		const confirmPassword = data.get('confirmPassword')?.toString().trim();
-		
-		const response = await fetch(`${API}/register`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ email, password })
-		});
+  register: async ({ request }) => {
+    const data = await request.formData();
+    const email = data.get("email")?.toString().trim();
+    const password = data.get("password")?.toString().trim();
+    const confirmPassword = data.get("confirmPassword")?.toString().trim();
+    const expression: RegExp =
+      /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
 
-		if (!response.ok) {
-            const err = await response.json();
-			//grab outputted errors from backend
-            const errorMsg = err.errors ? Object.values(err.errors).flat().join(', ') : "Registration failed";
-			return fail(400, { error: errorMsg });
-		}
+    if (!expression.test(email)) {
+      return fail(400, {
+        error: "Invalid email",
+      });
+    }
+    if (password != confirmPassword) {
+      return fail(400, {
+        error: "Passwords dont match",
+      });
+    }
+    if (!email || !password || !confirmPassword) {
+      return fail(400, {
+        error: "All fields are required",
+      });
+    }
 
-		return { success: true, message: "Please check your email to confirm account." };
-	}
+    try {
+      const response = await fetch(`${API}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        const err = await response.json();
+
+        // .NET ValidationProblem puts "General" errors in an empty string key ""
+        const generalErrors = err.errors[""] ? err.errors[""].join(" ") : "";
+        const fieldErrors = err.errors;
+
+        return fail(400, {
+          error: generalErrors || "Registration failed",
+          details: fieldErrors,
+        });
+      }
+      if (!response.ok) {
+        const err = await response.json();
+        //grab outputted errors from backend
+        const errorMsg = err.errors
+          ? Object.values(err.errors).flat().join(", ")
+          : "Registration failed";
+        return fail(400, { error: errorMsg });
+      }
+
+      return {
+        success: true,
+        message: "Please check your email to confirm account.",
+      };
+    } catch (err) {
+      return fail(503, {
+        error: `deez nuts ${err}`,
+      });
+    }
+  },
 };

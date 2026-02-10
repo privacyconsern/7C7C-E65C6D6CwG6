@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
     import type { PageProps } from './$types';
 	import { RotateCcw, MousePointer, BrickWall, Square, Flower, Flower2, Leaf, Palette } from "lucide-svelte";
 	import { enhance } from '$app/forms';
@@ -48,7 +48,7 @@
     	    	<p class="text-white">reserve</p>
    			</button>
 		</form>-->
-		<button class="bg-[#2300B0] px-4 flex items-center justify-center" type="submit">
+<!-- <button class="bg-[#2300B0] px-4 flex items-center justify-center" type="submit">
     	    <p class="text-white">reserve</p>
    		</button>
 	</div>
@@ -56,4 +56,5 @@
 	{#each data.timeslots as timeslot}
 		<p>{timeslot.starttime}, {timeslot.endtime}</p>
 	{/each}
-</ul>
+</ul> -->
+Hello

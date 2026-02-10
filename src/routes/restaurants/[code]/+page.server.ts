@@ -2,37 +2,37 @@ import type { PageServerLoad } from './$types';
 import { API } from '$env/static/private'; //api route
 import type { LayoutItem, SaveLayoutRequest } from '$lib/types/layout';
 
-export const load: PageServerLoad = async ({ fetch }) => {
+// export const load: PageServerLoad = async ({ fetch }) => {
 
-   //fetch table
-    const restables = await fetch(`${API}/tables`, {
-        method: 'GET',
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
-    //fetch timeslots
-    const response2 = await fetch(`${API}/timeslots`, {
-        method: 'GET',
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
+//    //fetch table
+//     const restables = await fetch(`${API}/tables`, {
+//         method: 'GET',
+//         headers: {
+//             'content-type': 'application/json'
+//         }
+//     });
+//     //fetch timeslots
+//     const response2 = await fetch(`${API}/timeslots`, {
+//         method: 'GET',
+//         headers: {
+//             'content-type': 'application/json'
+//         }
+//     });
 
-    //response ok, give data
-    if (restables.ok) {
-        const tables = await restables.json();
-        return {
-            tables: tables
-        };
-    }
-    if (response2.ok) {
-        const timeslots = await response2.json();
-        console.log(timeslots)
-        return {
-            timeslots: timeslots
-        };
-    }
+//     //response ok, give data
+//     if (restables.ok) {
+//         const tables = await restables.json();
+//         return {
+//             tables: tables
+//         };
+//     }
+//     if (response2.ok) {
+//         const timeslots = await response2.json();
+//         console.log(timeslots)
+//         return {
+//             timeslots: timeslots
+//         };
+//     }
     //else return error
     return { tables: [], timeslots: [] };
 };
@@ -74,9 +74,9 @@ try {
             'Content-Type': 'application/json',
             // Add authorization headers if needed
         },
-        // **This is the critical step:** The entire requestBody (which contains the 
+        // **This is the critical step:** The entire requestBody (which contains the
         // JavaScript array in the 'layout' field) is stringified once.
-        body: JSON.stringify(requestBody) 
+        body: JSON.stringify(requestBody)
     });
 
     if (response.ok) {
