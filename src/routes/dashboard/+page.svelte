@@ -3,6 +3,7 @@
     import { enhance } from "$app/forms";
     import type { SubmitFunction } from "@sveltejs/kit";
     import { goto } from "$app/navigation";
+    import { resolve } from "$app/paths";
 
     let { data, form }: PageProps = $props();
     let formMessage: { type: "success" | "error"; text: string } | null = null;
@@ -14,7 +15,7 @@
 
         return async ({ result, update }) => {
             if (result.type === "redirect") {
-                goto(`/restaurants/${restaurantName}`);
+                goto(resolve(`/restaurants/${restaurantName}`));
             } else {
                 //display error message from the server action
                 formMessage = {
@@ -33,11 +34,13 @@
 
 {#if data.restaurants.length > 0}
     <ul>
-        <!-- {#each data.restaurants as restaurant}
+        {#each data.restaurants as restaurant (restaurant.id)}
             <li>
-                <strong>{restaurant.restaurantName}</strong> - {restaurant.restaurantCode}
+                <a href={resolve(`/dashboard/restaurant/${restaurant.id}`)}>
+                    <strong>{restaurant.restaurantName}</strong> - {restaurant.restaurantCode}
+                </a>
             </li>
-        {/each} -->
+        {/each}
     </ul>
 {:else}
     <p>No restaurants found.</p>
