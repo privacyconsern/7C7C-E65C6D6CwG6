@@ -1,9 +1,10 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
-    import type { SubmitFunction } from "@sveltejs/kit";
+    import { type SubmitFunction } from "@sveltejs/kit";
     import { goto } from "$app/navigation";
     import Slider from "$lib/components/ui/Slider.svelte";
     import { resolve } from "$app/paths";
+    import { t } from "../i18n";
 
     const imageUrl = "https://picsum.photos/800/400";
     let formMessage = $state<{
@@ -37,10 +38,12 @@
     };
 </script>
 
-<div class="inline-flex py-5">
+<div class="flex gap-20 justify-center py-5">
     <div>
         <h1 class="text-6xl px-38 py-12">
-            Reserve a table<br />at your favourite<br />restaurant
+            {$t("landing.title")}<br />{$t("landing.title2")}<br />{$t(
+                "landing.title3",
+            )}
         </h1>
         <form
             class="flex justify-start px-38"
@@ -53,7 +56,7 @@
                 type="text"
                 id="restaurant-code"
                 name="restaurantCode"
-                placeholder="Enter restaurant code here"
+                placeholder={$t("landing.placeholder")}
                 required
                 class="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-[#2300B0] focus:outline-none"
                 bind:value={restaurantCode}
@@ -65,7 +68,7 @@
             </button>
         </form>
         <p class="text-sm text-gray-500 mt-2 px-38">
-            Codes are in format ##-000-000
+            {$t("landing.code")}
         </p>
         {#if formMessage}
             <p
@@ -90,6 +93,7 @@
         <img src={imageUrl} />
     </div>
 </div>
+
 <Slider />
 <!--<RestaurantCards />-->
 <div class="relative w-full h-128 bg-[#2300B0] flex justify-center gap-2">
@@ -152,9 +156,10 @@
     </div>
 </div>
 <div class="bg-[#2300B0] h-10 justify-center flex">
-    <button
-        class="margin-auto w-40 border border-white text-white rounded-lg text-black font-medium hover:bg-white hover:text-[#2300B0] transition hover:rounded-none hover:cursor-pointer"
-        >See more</button
+    <a
+        href={resolve("/search")}
+        class="p-2 margin-auto w-40 border border-white text-white rounded-lg text-black font-medium text-center hover:bg-white hover:text-[#2300B0] transition hover:rounded-none hover:cursor-pointer"
+        >See more</a
     >
 </div>
 <div class="bg-[#2300B0] h-10"></div>

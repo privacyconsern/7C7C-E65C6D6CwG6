@@ -65,6 +65,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         id: user.id,
         email: user.name, // Mapping from your LoggedUser model
         isAuthenticated: user.isAuthenticated,
+        profilePictureUrl: user.profilePictureUrl,
       };
     } else {
       event.locals.user = null;

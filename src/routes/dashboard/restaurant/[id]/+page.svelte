@@ -1,13 +1,32 @@
 <script lang="ts">
     import type { SubmitFunction } from "@sveltejs/kit";
     import { enhance } from "$app/forms";
+    import { page } from "$app/state";
+    import { get_res_by_id } from "$lib/server/restaurantService";
 
-    let restaurantName = $state("mlem");
-    let restaurantCode = $state("");
-    let reservationsDuration = $state("");
-    let openingHourAndMinute = $state("");
-    let closingHourAndMinute = $state("");
-    let description = $state("");
+    const restaurantid = page.params.id!;
+    // console.log(restaurantid);
+    const restaurant = await get_res_by_id(restaurantid);
+    console.log(restaurant);
+    // const restaurant = get_res_by_id(page.params.id!);
+    // if (restaurant.error!) {
+    //     console.log("bleh");
+    // }
+    // console.log(restaurant);
+
+    //let restaurantName = $state("");
+    //let restaurantCode = $state("");
+    //let reservationsDuration = $state("");
+    //let openingHourAndMinute = $state("");
+    //let closingHourAndMinute = $state("");
+    //let description = $state("");
+
+    let restaurantName = $state(restaurant.restaurantName);
+    let restaurantCode = $state(restaurant.restaurantCode);
+    let reservationsDuration = $state(restaurant.reservationsDuration);
+    let openingHourAndMinute = $state(restaurant.openingHourAndMinute);
+    let closingHourAndMinute = $state(restaurant.closingHourAndMinute);
+    let description = $state(restaurant.description);
 
     let resultStatus = $state<{
         type: "success" | "error";

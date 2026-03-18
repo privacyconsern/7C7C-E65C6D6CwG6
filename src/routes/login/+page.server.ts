@@ -15,9 +15,9 @@ export const actions: Actions = {
     });
 
     if (!response.ok) {
-      // Handle your specific .NET ValidationProblem response structure here
       const err = await response.json();
-      return fail(400, { email, error: err.title || "Login failed" });
+      console.log(err); //.net errors
+      return fail(400, "Incorrect email or password");
     }
 
     const data = await response.json(); // Contains { token, email, id }

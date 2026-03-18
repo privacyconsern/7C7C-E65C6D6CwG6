@@ -25,7 +25,7 @@ export const load: PageServerLoad = async ({ fetch, cookies, request }) => {
 };
 
 export const actions: Actions = {
-  default: async ({ cookies, request }) => {
+  logout: async ({ cookies, request }) => {
     const accessToken = cookies.get("accessToken");
 
     //revoke token on backend

@@ -1,6 +1,28 @@
 import { API } from "$env/static/private";
-import { checkRestaurantCodeExists } from "$lib/server/restaurantService";
-import { fail, redirect, type Actions } from "@sveltejs/kit";
+import { fail, type Actions } from "@sveltejs/kit";
+import { page } from "$app/state";
+import type { PageServerLoad } from "./$types";
+
+// const id = "48825bc3-4f5e-4321-af92-7c3514c27fd1";
+
+// export const load: PageServerLoad = async ({ fetch }) => {
+//   try {
+//     const response = await fetch(`${API}/r/${id}`, {
+//       method: "GET",
+//       headers: {
+//         "content-type": "application/json",
+//       },
+//     });
+//     const restaurant = await response.json();
+//     return {
+//       restaurant: restaurant,
+//     };
+//   } catch {
+//     return {
+//       error: "backend not runnin",
+//     };
+//   }
+// };
 
 export const actions: Actions = {
   updateRestaurant: async ({ locals, request }) => {
@@ -79,3 +101,29 @@ export const actions: Actions = {
     }
   },
 };
+
+// export const load: PageServerLoad = async ({ fetch }) => {
+//   try {
+//     const response = await fetch(`${API}/r/${slug}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+
+//     const restaurant = await response.json();
+//     return {
+//       restaurant: restaurant,
+//     };
+//     if (!response.ok) {
+//       const err = await response.json();
+//       //grab outputted errors from backend
+//       const errorMsg = err.errors
+//         ? Object.values(err.errors).flat().join(", ")
+//         : "Loaad failed";
+//       return fail(400, { error: errorMsg });
+//     }
+//   } catch {
+//     return "lol";
+//   }
+// };

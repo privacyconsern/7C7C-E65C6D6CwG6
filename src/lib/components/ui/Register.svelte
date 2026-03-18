@@ -3,6 +3,7 @@
     import type { SubmitFunction } from "@sveltejs/kit";
     import Button from "./Button-full.svelte";
     import GoogleLogo from "$lib/assets/Google__G__logo.svg";
+    import { t } from "../../../i18n";
 
     // --- Props (Runes Mode) ---
     let { showModal = $bindable(false) } = $props();
@@ -64,7 +65,7 @@
             ✕
         </button>
 
-        <h2 class="pb-2 text-xl font-bold mb-2">Select sign-in method</h2>
+        <h2 class="pb-2 text-xl font-bold mb-2">{$t("register.signin")}</h2>
 
         <button
             class="group relative flex w-full items-center overflow-hidden rounded-lg bg-[#2300B0] font-sans text-white transition-transform active:scale-95 shadow-sm"
@@ -75,7 +76,7 @@
             <div
                 class="flex flex-1 items-center py-3 text-lg font-medium tracking-wide"
             >
-                Sign in with Google
+                {$t("register.google")}
             </div>
             <div class="flex items-center pr-8">
                 <svg
@@ -92,7 +93,7 @@
         <div class="relative my-8 border-t border-stone-300">
             <span
                 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-sm text-stone-400"
-                >OR</span
+                >{$t("register.or")}</span
             >
         </div>
 
@@ -107,7 +108,9 @@
         {/if}
 
         {#if resultStatus && resultStatus.type === "success"}{:else}
-            <h2 class="py-2 text-xl font-bold mb-4">Sign up with email</h2>
+            <h2 class="py-2 text-xl font-bold mb-4">
+                {$t("register.email")}
+            </h2>
             <form
                 novalidate
                 method="POST"
@@ -126,7 +129,7 @@
                 <input
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder={$t("register.password")}
                     required
                     bind:value={password}
                     class="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-[#2300B0] focus:outline-none"
@@ -134,13 +137,13 @@
                 <input
                     type="password"
                     name="confirmPassword"
-                    placeholder="Confirm Password"
+                    placeholder={$t("register.passwordconfirm")}
                     required
                     bind:value={confirmPassword}
                     class="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-[#2300B0] focus:outline-none"
                 />
 
-                <Button type="submit">Register</Button>
+                <Button type="submit">{$t("register.register")}</Button>
             </form>
         {/if}
 

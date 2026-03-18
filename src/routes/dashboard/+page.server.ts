@@ -10,7 +10,7 @@ export const load = async ({ cookies, locals }) => {
   }
   const accessToken = cookies.get("accessToken");
   //user restaurants
-  const response = await fetch(`${API}/ur`, {
+  const response = await fetch(`${API}/ur?userId=${locals.user.id}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

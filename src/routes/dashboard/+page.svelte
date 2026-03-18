@@ -45,8 +45,10 @@
 {:else}
     <p>No restaurants found.</p>
 {/if}
-<a href={resolve(`/dashboard/restaurant/new`)}>Create new restaurant</a>
-<form
+<a class="bg-[#2300B0] text-white" href={resolve(`/dashboard/restaurant/new`)}
+    >Create new restaurant</a
+>
+<!-- <form
     class="flex justify-start px-38"
     method="POST"
     action="?/createRestaurant"
@@ -74,4 +76,4 @@
     >
         <p class="text-white">➤</p>
     </button>
-</form>
+</form> -->
